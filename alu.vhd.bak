@@ -1,0 +1,34 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity alu is
+    Port (
+        A, B : in STD_LOGIC_VECTOR (3 downto 0);
+        C_in : in STD_LOGIC;
+        OP : in STD_LOGIC_VECTOR (2 downto 0);
+        F_OUT : out STD_LOGIC_VECTOR (3 downto 0);
+        C_out : out STD_LOGIC
+    );
+end alu;
+
+architecture Behavioral of alu is
+begin
+    process (A, B, C_in, OP)
+    begin
+        case OP is
+            when "000" => F_OUT <= not A;                       -- NOT operation
+            when "001" => F_OUT <= A and B;                     -- AND operation
+            when "010" => F_OUT <= A or B;                      -- OR operation
+            when "011" =>                                   -- ADD with carry
+                F_OUT <= A + B + Cin;
+                C_out <= '1' when (A(3) and B(3)) or ((A(3) xor B(3)) and (A(2) or B(2))) else '0';
+            when "100" => F_OUT <= A;                           -- Output A
+            when "101" => F_OUT <= B;                           -- Output B
+            when "110" => F_OUT <= A(2 downto 0) & '0';         -- Shift Left Logical
+            when "111" => F_OUT <= '0' & A(3 downto 1);         -- Shift Right Logical
+            when others => F_OUT <= (others => '0');
+        end case;
+    end process;
+end Behavioral;

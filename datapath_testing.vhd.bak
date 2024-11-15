@@ -1,0 +1,101 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity tb_Datapath is
+end tb_Datapath;
+
+architecture testbench_arch of tb_Datapath is
+    component Datapath
+        port (
+            clk             : in  std_logic;
+            reset           : in  std_logic;
+            button          : in  std_logic;
+            ALU_CTRL        : in  std_logic_vector (6 downto 0);
+            input_bus       : in  std_logic_vector (3 downto 0);
+            seg_display     : out std_logic_vector (6 downto 0);
+            seg_displayA    : out std_logic_vector (6 downto 0);
+            seg_displayB    : out std_logic_vector (6 downto 0)
+        );
+    end component;
+
+    -- Signal declarations
+    signal clk            : std_logic := '0';
+    signal reset          : std_logic := '0';
+    signal button         : std_logic := '0';
+    signal ALU_CTRL       : std_logic_vector(6 downto 0) := (others => '0');
+    signal input_bus      : std_logic_vector(3 downto 0) := (others => '0');
+    signal seg_display     : std_logic_vector(6 downto 0);
+    signal seg_displayA    : std_logic_vector(6 downto 0);
+    signal seg_displayB    : std_logic_vector(6 downto 0);
+
+begin
+    -- Instantiate the Unit Under Test (UUT)
+    UUT: Datapath
+        port map (
+            clk => clk,
+            reset => reset,
+            button => button,
+            ALU_CTRL => ALU_CTRL,
+            input_bus => input_bus,
+            seg_display => seg_display,
+            seg_displayA => seg_displayA,
+            seg_displayB => seg_displayB
+        );
+
+    -- Clock process
+    PROCESS
+    BEGIN
+        CLOCK_LOOP: LOOP
+            clk <= '0';
+            WAIT FOR 20 ns;
+            clk <= '1';
+            WAIT FOR 20 ns;
+        END LOOP CLOCK_LOOP;
+    END PROCESS;
+
+    -- Stimuli process
+    PROCESS
+    BEGIN
+        -- Reset the system
+        reset <= '1';
+        WAIT FOR 50 ns;
+        reset <= '0';
+        WAIT FOR 50 ns;
+
+        -- Test input_bus and ALU control signals
+        input_bus <= "0001";  -- Example input
+        ALU_CTRL <= "0000001"; -- Example ALU control signals
+
+        WAIT FOR 40 ns;
+
+        button <= '1';  -- Press button
+        WAIT FOR 40 ns;
+        button <= '0';  -- Release button
+        WAIT FOR 40 ns;
+
+        -- Change ALU control signals
+        ALU_CTRL <= "0000010";  -- Change ALU operation
+        WAIT FOR 40 ns;
+
+        -- Testing different input_bus values
+        input_bus <= "0010";  -- Change input
+        WAIT FOR 40 ns;
+
+        -- Press button again
+        button <= '1';
+        WAIT FOR 40 ns;
+        button <= '0';
+
+        -- Final input testing
+        input_bus <= "0100";  -- Another input
+        WAIT FOR 40 ns;
+
+        -- Reset the system again
+        reset <= '1';
+        WAIT FOR 50 ns;
+        reset <= '0';
+        
+        WAIT;  -- Wait indefinitely
+    END PROCESS;
+end testbench_arch;

@@ -1,0 +1,73 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Datapath is
+    Port (
+        clk, reset : in STD_LOGIC;
+        ALU_CTRL : in STD_LOGIC_VECTOR (6 downto 0);
+        F_OUT : out STD_LOGIC_VECTOR (3 downto 0)
+    );
+end Datapath;
+
+architecture Behavioral of Datapath is
+    -- Component declarations
+    component ALU_4bit
+        Port (
+            A, B : in STD_LOGIC_VECTOR (3 downto 0);
+            Cin : in STD_LOGIC;
+            OP : in STD_LOGIC_VECTOR (2 downto 0);
+            F_OUT : out STD_LOGIC_VECTOR (3 downto 0);
+            Cout : out STD_LOGIC
+        );
+    end component;
+
+    component Register_4bit
+        Port (
+            clk, reset : in STD_LOGIC;
+            D : in STD_LOGIC_VECTOR (3 downto 0);
+            Q : out STD_LOGIC_VECTOR (3 downto 0)
+        );
+    end component;
+
+    -- Signals
+    signal A, B, F_ALU : STD_LOGIC_VECTOR(3 downto 0);
+    signal Cout_ALU : STD_LOGIC;
+    signal OP : STD_LOGIC_VECTOR(2 downto 0);
+
+begin
+    -- Assign OP from ALU_CTRL bits
+    OP <= ALU_CTRL(2 downto 0);
+
+    -- Instantiate ALU
+    ALU_Component: ALU_4bit 
+        Port map (
+            A => A,
+            B => B,
+            Cin => '0',      -- Carry-in set to 0
+            OP => OP,
+            F_OUT => F_ALU,
+            Cout => Cout_ALU
+        );
+
+    -- Instantiate Register A
+    RegisterA: Register_4bit 
+        Port map (
+            clk => clk,
+            reset => reset,
+            D => A,
+            Q => A
+        );
+
+    -- Instantiate Register B
+    RegisterB: Register_4bit 
+        Port map (
+            clk => clk,
+            reset => reset,
+            D => B,
+            Q => B
+        );
+
+    -- Output assignment
+    F_OUT <= F_ALU;
+
+end Behavioral;

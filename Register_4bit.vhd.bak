@@ -1,0 +1,57 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Register_4bit is
+    Port (
+        clk, reset : in STD_LOGIC;
+        D : in STD_LOGIC_VECTOR (3 downto 0);
+        Q : out STD_LOGIC_VECTOR (3 downto 0)
+    );
+end Register_4bit;
+
+architecture Behavioral of Register_4bit is
+    component D_FF
+        Port (
+            clk : in STD_LOGIC;
+            reset : in STD_LOGIC;
+            D : in STD_LOGIC;
+            Q : out STD_LOGIC
+        );
+    end component;
+
+    signal Q_internal : STD_LOGIC_VECTOR(3 downto 0);
+
+begin
+    -- Instantiating each D_FF component individually
+    D_FF_0: D_FF Port map (
+        clk => clk,
+        reset => reset,
+        D => D(0),
+        Q => Q_internal(0)
+    );
+
+    D_FF_1: D_FF Port map (
+        clk => clk,
+        reset => reset,
+        D => D(1),
+        Q => Q_internal(1)
+    );
+
+    D_FF_2: D_FF Port map (
+        clk => clk,
+        reset => reset,
+        D => D(2),
+        Q => Q_internal(2)
+    );
+
+    D_FF_3: D_FF Port map (
+        clk => clk,
+        reset => reset,
+        D => D(3),
+        Q => Q_internal(3)
+    );
+
+    -- Connect the internal signal to the output
+    Q <= Q_internal;
+
+end Behavioral;

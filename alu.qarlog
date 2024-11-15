@@ -1,0 +1,22 @@
+Quartus Prime Archive log --	C:/Users/Mural/Quartus/Lab04/alu.qarlog
+
+Archive:	C:/Users/Mural/Quartus/Lab04/alu.qar
+Date:		Tue Nov  5 09:52:26 2024
+Quartus Prime		23.1std.1 Build 993 05/14/2024 SC Lite Edition
+
+	=========== Files Selected: ===========
+C:/Users/Mural/Quartus/Lab04/Converter.vhd
+C:/Users/Mural/Quartus/Lab04/DE10_LITE_Golden_Top.v
+C:/Users/Mural/Quartus/Lab04/D_FF.vhd
+C:/Users/Mural/Quartus/Lab04/Datapath.vhd
+C:/Users/Mural/Quartus/Lab04/Register_4bit.vhd
+C:/Users/Mural/Quartus/Lab04/alu.qpf
+C:/Users/Mural/Quartus/Lab04/alu.qsf
+C:/Users/Mural/Quartus/Lab04/alu.vhd
+C:/Users/Mural/Quartus/Lab04/alu_assignment_defaults.qdf
+C:/Users/Mural/Quartus/Lab04/datapath_testing.vhd
+C:/Users/Mural/Quartus/Lab04/mux_4x1.vhd
+	======= Total: 11 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.
